@@ -1,7 +1,7 @@
 function MyOrder() {
   return (
     <>
-      <div>My Order</div>{" "}
+      <div>My Order</div>
     </>
   );
 }
