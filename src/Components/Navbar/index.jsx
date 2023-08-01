@@ -1,6 +1,10 @@
 import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { ShoppingCartContext } from "../../Context";
 
 function Navbar() {
+  const context = useContext(ShoppingCartContext);
+
   const activeStyle = "underline underline-offset-4";
   return (
     <>
@@ -97,7 +101,7 @@ function Navbar() {
               to="toys"
               className={({ isActive }) => (isActive ? activeStyle : "")}
             >
-              🛒0
+              🛒{context.count}
             </NavLink>
           </li>
         </ul>
