@@ -20,6 +20,9 @@ function ShoppingCartProvider({ children }) {
 
   const [productToShow, setProductToShow] = useState({});
 
+  // Shopping Cart: add products to cart
+  const [cartProducts, setCartProducts] = useState([]);
+
   return (
     <>
       <ShoppingCartContext.Provider
@@ -32,6 +35,8 @@ function ShoppingCartProvider({ children }) {
           closeProductDetail,
           productToShow,
           setProductToShow,
+          cartProducts,
+          setCartProducts,
         }}
       >
         {children}

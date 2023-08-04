@@ -3,9 +3,8 @@ import { ShoppingCartContext } from "../../Context";
 import { XCircleIcon } from "@heroicons/react/24/solid";
 import "./productDetail.css";
 
-function ProductDetail(data) {
+function ProductDetail() {
   const context = useContext(ShoppingCartContext);
-  console.log("This is Product to Show:", context.productToShow);
 
   return (
     <>
