@@ -23,6 +23,16 @@ function ShoppingCartProvider({ children }) {
   // Shopping Cart: add products to cart
   const [cartProducts, setCartProducts] = useState([]);
 
+  // Checkout Side Menu: Open/Close
+  const [isCheckoutSideMenuOpen, setsCheckoutSideMenuOpen] = useState(false);
+
+  function openCheckoutSideMenu() {
+    setsCheckoutSideMenuOpen(true);
+  }
+  function closeCheckoutSideMenu() {
+    setsCheckoutSideMenuOpen(false);
+  }
+
   return (
     <>
       <ShoppingCartContext.Provider
@@ -37,6 +47,10 @@ function ShoppingCartProvider({ children }) {
           setProductToShow,
           cartProducts,
           setCartProducts,
+          isCheckoutSideMenuOpen,
+          setsCheckoutSideMenuOpen,
+          openCheckoutSideMenu,
+          closeCheckoutSideMenu,
         }}
       >
         {children}

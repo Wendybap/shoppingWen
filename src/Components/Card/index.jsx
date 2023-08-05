@@ -9,12 +9,17 @@ function Card(data) {
   function showProduct(productDetail) {
     context.openProductDetail();
     context.setProductToShow(productDetail);
+    context.closeCheckoutSideMenu();
   }
 
   // Add to Shopping Cart
-  function addProductsToCart(productData) {
+  function addProductsToCart(event, productData) {
+    event.stopPropagation();
+
     context.setCount(context.count + 1);
     context.setCartProducts([...context.cartProducts, productData]);
+    context.openCheckoutSideMenu();
+    context.closeProductDetail();
   }
 
   return (
@@ -34,9 +39,9 @@ function Card(data) {
           />
           <div
             className="absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1"
-            onClick={() => addProductsToCart(data.data)}
+            onClick={(event) => addProductsToCart(event, data.data)}
           >
-            <PlusIcon />
+            <PlusIcon className="h-6 w-6 text-black" />
           </div>
         </figure>
         <p className="flex justify-between">
