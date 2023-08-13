@@ -2,6 +2,15 @@ import { XCircleIcon } from "@heroicons/react/24/solid";
 
 function OrderCard(props) {
   const { id, title, imageUrl, price, handleDelete } = props;
+  let renderXCircleIcon;
+  if (handleDelete) {
+    renderXCircleIcon = (
+      <XCircleIcon
+        onClick={() => handleDelete(id)}
+        className="h-6 w-6 text-black-500 cursor-pointer"
+      />
+    );
+  }
 
   return (
     <>
@@ -23,10 +32,7 @@ function OrderCard(props) {
           >
             {price}
           </p>
-          <XCircleIcon
-            onClick={() => handleDelete(id)}
-            className="h-6 w-6 text-black-500 cursor-pointer"
-          />
+          {renderXCircleIcon}
         </div>
       </div>
     </>
