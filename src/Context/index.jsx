@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 const ShoppingCartContext = createContext();
 
@@ -36,6 +36,19 @@ function ShoppingCartProvider({ children }) {
   // Checkout Side Menu: My Order
   const [order, setOrder] = useState([]);
 
+  function setOrderInContext(newOrder) {
+    setOrder(newOrder);
+  }
+
+  // Get Products
+  const [items, setItems] = useState(null);
+
+  useEffect(() => {
+    fetch("https://api.escuelajs.co/api/v1/products")
+      .then((response) => response.json())
+      .then((data) => setItems(data));
+  }, []);
+
   return (
     <>
       <ShoppingCartContext.Provider
@@ -56,6 +69,9 @@ function ShoppingCartProvider({ children }) {
           closeCheckoutSideMenu,
           order,
           setOrder,
+          items,
+          setItems,
+          setOrderInContext,
         }}
       >
         {children}
