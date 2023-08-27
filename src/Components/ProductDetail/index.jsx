@@ -25,7 +25,7 @@ function ProductDetail() {
         <figure className="px-6">
           <img
             className="w-full h-full rounded-lg"
-            src={context.productToShow.images}
+            src={context.productToShow.image}
             alt={context.productToShow.title}
           />
         </figure>

@@ -17,6 +17,9 @@ function Navbar() {
           <li>
             <NavLink
               to="/"
+              onClick={() => {
+                context.setSelectedCategory();
+              }}
               className={({ isActive }) => (isActive ? activeStyle : "")}
             >
               All
@@ -24,44 +27,46 @@ function Navbar() {
           </li>
           <li>
             <NavLink
-              to="/clothes"
+              to="/men's clothing"
+              onClick={() => {
+                context.setSelectedCategory("men's clothing");
+              }}
               className={({ isActive }) => (isActive ? activeStyle : "")}
             >
-              Clothes
+              Men's clothing
             </NavLink>
           </li>
           <li>
             <NavLink
-              to="/electronic"
+              to="/women's clothing"
+              onClick={() => {
+                context.setSelectedCategory("women's clothing");
+              }}
               className={({ isActive }) => (isActive ? activeStyle : "")}
             >
-              Electronic
+              Women's clothing
             </NavLink>
           </li>
           <li>
             <NavLink
-              to="/forniture"
+              to="jewelery"
+              onClick={() => {
+                context.setSelectedCategory("jewelery");
+              }}
               className={({ isActive }) => (isActive ? activeStyle : "")}
             >
-              Forniture
+              Jewelery
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="toys"
-              className={({ isActive }) => (isActive ? activeStyle : "")}
-            >
-              Toys
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/others"
-              className={({ isActive }) => (isActive ? activeStyle : "")}
-            >
-              Others
-            </NavLink>
-          </li>
+          <NavLink
+            to="/electronics"
+            onClick={() => {
+              context.setSelectedCategory("electronics");
+            }}
+            className={({ isActive }) => (isActive ? activeStyle : "")}
+          >
+            Electronics
+          </NavLink>
         </ul>
         <ul className="flex items-center gap-3">
           <li className="text-black/60">wendyarcia1811@gmail.com</li>
@@ -99,7 +104,7 @@ function Navbar() {
           </li>
           <li className="flex items-center">
             <ShoppingCartIcon className="h-6 w-6 text-black-500 " />
-            <div>{context.count}</div>
+            <div>{context.cartProducts.length}</div>
           </li>
         </ul>
       </nav>

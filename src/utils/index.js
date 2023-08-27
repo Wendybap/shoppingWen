@@ -8,5 +8,5 @@ export const totalPrice = (products) => {
   for (let i = 0; i < products.length; i++) {
     suma += products[i].price;
   }
-  return suma;
+  return suma.toFixed(2);
 };

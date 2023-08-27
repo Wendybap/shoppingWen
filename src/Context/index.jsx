@@ -44,10 +44,9 @@ function ShoppingCartProvider({ children }) {
 
   // Get products by title / Capture and update the value of the input
   const [searchByTitle, setSearchByTitle] = useState(null);
-  console.log("searchByTitle", searchByTitle);
 
   useEffect(() => {
-    fetch("https://api.escuelajs.co/api/v1/products")
+    fetch("https://fakestoreapi.com/products")
       .then((response) => response.json())
       .then((data) => setItems(data));
   }, []);
@@ -59,13 +58,52 @@ function ShoppingCartProvider({ children }) {
     );
   }
 
+  // Get products filtered by category
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  function filteredItemsByCategory(items, selectedCategory) {
+    if (!selectedCategory) {
+      items;
+    }
+    return items.filter(
+      (item) => item.category.toLowerCase() === selectedCategory.toLowerCase()
+    );
+  }
+
+  function filterBy(searchType, items, searchByTitle, selectedCategory) {
+    if (searchType === "ByTitle") {
+      return filteredItemsByTitle(items, searchByTitle);
+    }
+    if (searchType === "ByCategory") {
+      return filteredItemsByCategory(items, selectedCategory);
+    }
+    if (searchType === "ByTitleAndCategory") {
+      return filteredItemsByCategory(items, selectedCategory).filter((item) =>
+        item.title.toLowerCase().includes(searchByTitle.toLowerCase())
+      );
+    }
+    if (!searchType) {
+      return items;
+    }
+  }
   // Update setFilteredItems
   useEffect(() => {
-    if (searchByTitle)
-      setFilteredItems(filteredItemsByTitle(items, searchByTitle));
-  }, [items, searchByTitle]);
+    if (searchByTitle && !selectedCategory)
+      setFilteredItems(
+        filterBy("ByTitle", items, searchByTitle, selectedCategory)
+      );
+    if (selectedCategory && !searchByTitle)
+      setFilteredItems(
+        filterBy("ByCategory", items, searchByTitle, selectedCategory)
+      );
+    if (searchByTitle && selectedCategory)
+      setFilteredItems(
+        filterBy("ByTitleAndCategory", items, searchByTitle, selectedCategory)
+      );
+    if (!selectedCategory && !searchByTitle)
+      setFilteredItems(filterBy(null, items, searchByTitle, selectedCategory));
+  }, [items, searchByTitle, selectedCategory]);
 
-  //
   return (
     <>
       <ShoppingCartContext.Provider
@@ -93,6 +131,10 @@ function ShoppingCartProvider({ children }) {
           filteredItems,
           setFilteredItems,
           filteredItemsByTitle,
+          selectedCategory,
+          setSelectedCategory,
+          filteredItemsByCategory,
+          filterBy,
         }}
       >
         {children}

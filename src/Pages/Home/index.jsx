@@ -21,6 +21,26 @@ function Home() {
     }
   }
 
+  function renderViewByCategory() {
+    const filteredItemsByCat = context.filteredItemsByCategory(
+      context.items,
+      context.selectedCategory
+    );
+
+    const filteredItemsByTitleAndCat = context.filteredItemsByTitle(
+      filteredItemsByCat,
+      context.searchByTitle
+    );
+
+    if (filteredItemsByTitleAndCat.length > 0) {
+      return filteredItemsByTitleAndCat.map((item) => (
+        <Card key={item.id} data={item} />
+      ));
+    } else {
+      return <div>Sorry, product no found 😔</div>;
+    }
+  }
+
   return (
     <>
       <Layout>
@@ -31,10 +51,12 @@ function Home() {
           type="text"
           placeholder="Search a product"
           className="border rounded-lg border-black w-80 p-4 mb-4 focus:outline-none"
-          onChange={(e) => context.setSearchByTitle(e.target.value)}
+          onChange={(e) => {
+            context.setSearchByTitle(e.target.value);
+          }}
         />
         <div className="grid gap-4 grid-cols-4 w-full max-w-screen-lg">
-          {renderView()}
+          {context.selectedCategory ? renderViewByCategory() : renderView()}
         </div>
         <ProductDetail />
       </Layout>
