@@ -37,13 +37,16 @@ function ShoppingCartProvider({ children }) {
   const [order, setOrder] = useState([]);
 
   // Get Products
-  const [items, setItems] = useState(null);
+  const [items, setItems] = useState([]);
 
   // State for products filtered by title
-  const [filteredItems, setFilteredItems] = useState(null);
+  const [filteredItems, setFilteredItems] = useState([]);
 
   // Get products by title / Capture and update the value of the input
-  const [searchByTitle, setSearchByTitle] = useState(null);
+  const [searchByTitle, setSearchByTitle] = useState("");
+
+  // Get products filtered by category
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
@@ -51,57 +54,28 @@ function ShoppingCartProvider({ children }) {
       .then((data) => setItems(data));
   }, []);
 
-  // Get products filtered by title
-  function filteredItemsByTitle(items, searchByTitle) {
-    return items?.filter((item) =>
-      item.title.toLowerCase().includes(searchByTitle.toLowerCase())
-    );
-  }
-
-  // Get products filtered by category
-  const [selectedCategory, setSelectedCategory] = useState(null);
-
-  function filteredItemsByCategory(items, selectedCategory) {
-    if (!selectedCategory) {
-      items;
-    }
-    return items.filter(
-      (item) => item.category.toLowerCase() === selectedCategory.toLowerCase()
-    );
-  }
-
-  function filterBy(searchType, items, searchByTitle, selectedCategory) {
-    if (searchType === "ByTitle") {
-      return filteredItemsByTitle(items, searchByTitle);
-    }
-    if (searchType === "ByCategory") {
-      return filteredItemsByCategory(items, selectedCategory);
-    }
-    if (searchType === "ByTitleAndCategory") {
-      return filteredItemsByCategory(items, selectedCategory).filter((item) =>
-        item.title.toLowerCase().includes(searchByTitle.toLowerCase())
-      );
-    }
-    if (!searchType) {
-      return items;
-    }
-  }
-  // Update setFilteredItems
   useEffect(() => {
-    if (searchByTitle && !selectedCategory)
-      setFilteredItems(
-        filterBy("ByTitle", items, searchByTitle, selectedCategory)
-      );
-    if (selectedCategory && !searchByTitle)
-      setFilteredItems(
-        filterBy("ByCategory", items, searchByTitle, selectedCategory)
-      );
-    if (searchByTitle && selectedCategory)
-      setFilteredItems(
-        filterBy("ByTitleAndCategory", items, searchByTitle, selectedCategory)
-      );
-    if (!selectedCategory && !searchByTitle)
-      setFilteredItems(filterBy(null, items, searchByTitle, selectedCategory));
+    // Get products filtered
+    function applyFilters() {
+      let filteredProducts = [...items];
+
+      //Filter by title if searchByTitle is not empty
+      if (searchByTitle) {
+        filteredProducts = filteredProducts.filter((item) =>
+          item.title.toLowerCase().includes(searchByTitle.toLowerCase())
+        );
+      }
+
+      // Filter by category if selectedCategory in not null
+      if (selectedCategory) {
+        filteredProducts = filteredProducts.filter(
+          (item) =>
+            item.category.toLowerCase() === selectedCategory.toLowerCase()
+        );
+      }
+      setFilteredItems(filteredProducts);
+    }
+    applyFilters();
   }, [items, searchByTitle, selectedCategory]);
 
   return (
@@ -130,11 +104,8 @@ function ShoppingCartProvider({ children }) {
           setSearchByTitle,
           filteredItems,
           setFilteredItems,
-          filteredItemsByTitle,
           selectedCategory,
           setSelectedCategory,
-          filteredItemsByCategory,
-          filterBy,
         }}
       >
         {children}

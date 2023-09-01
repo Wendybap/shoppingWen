@@ -7,40 +7,6 @@ import { ShoppingCartContext } from "../../Context";
 function Home() {
   const context = useContext(ShoppingCartContext);
 
-  function renderView() {
-    if (context.searchByTitle?.length > 0) {
-      if (context.filteredItems?.length > 0) {
-        return context.filteredItems?.map((item) => (
-          <Card key={item.id} data={item} />
-        ));
-      } else {
-        return <div>Sorry, product no found 😔</div>;
-      }
-    } else {
-      return context.items?.map((item) => <Card key={item.id} data={item} />);
-    }
-  }
-
-  function renderViewByCategory() {
-    const filteredItemsByCat = context.filteredItemsByCategory(
-      context.items,
-      context.selectedCategory
-    );
-
-    const filteredItemsByTitleAndCat = context.filteredItemsByTitle(
-      filteredItemsByCat,
-      context.searchByTitle
-    );
-
-    if (filteredItemsByTitleAndCat.length > 0) {
-      return filteredItemsByTitleAndCat.map((item) => (
-        <Card key={item.id} data={item} />
-      ));
-    } else {
-      return <div>Sorry, product no found 😔</div>;
-    }
-  }
-
   return (
     <>
       <Layout>
@@ -56,7 +22,13 @@ function Home() {
           }}
         />
         <div className="grid gap-4 grid-cols-4 w-full max-w-screen-lg">
-          {context.selectedCategory ? renderViewByCategory() : renderView()}
+          {context.filteredItems.length > 0 ? (
+            context.filteredItems.map((item) => (
+              <Card key={item.id} data={item}></Card>
+            ))
+          ) : (
+            <div>Sorry, product not found 😔</div>
+          )}
         </div>
         <ProductDetail />
       </Layout>
