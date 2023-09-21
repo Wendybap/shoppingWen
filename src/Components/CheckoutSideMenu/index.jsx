@@ -52,7 +52,7 @@ function CheckoutSideMenu() {
               key={product.id}
               id={product.id}
               title={product.title}
-              imageUrl={product.image}
+              imagesUrl={product.images}
               price={product.price}
               handleDelete={handleDelete}
             />

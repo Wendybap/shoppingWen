@@ -5,7 +5,7 @@ import MyAccount from "../MyAccount";
 import MyOrder from "../MyOrder";
 import MyOrders from "../MyOrders";
 import NotFound from "../NotFound";
-import SingIn from "../SingIn";
+import SignIn from "../SignIn";
 import Navbar from "../../Components/Navbar";
 import CheckoutSideMenu from "../../Components/CheckoutSideMenu";
 import "./App.css";
@@ -17,19 +17,19 @@ const AppRoutes = () => {
       element: <Home />,
     },
     {
-      path: "/men's clothing",
+      path: "/shoes",
       element: <Home />,
     },
     {
-      path: "/women's clothing",
-      element: <Home />,
-    },
-    {
-      path: "/jewelery",
+      path: "/furniture",
       element: <Home />,
     },
     {
       path: "/electronics",
+      element: <Home />,
+    },
+    {
+      path: "/others",
       element: <Home />,
     },
     {
@@ -47,8 +47,8 @@ const AppRoutes = () => {
     { path: "/MyOrders/last", element: <MyOrder /> },
     { path: "/MyOrders/:id", element: <MyOrder /> },
     {
-      path: "/SingIn",
-      element: <SingIn />,
+      path: "/Sign-In",
+      element: <SignIn />,
     },
     {
       path: "/*",

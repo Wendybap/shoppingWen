@@ -1,7 +1,7 @@
 import { XCircleIcon } from "@heroicons/react/24/solid";
 
 function OrderCard(props) {
-  const { id, title, imageUrl, price, handleDelete } = props;
+  const { id, title, imagesUrl, price, handleDelete } = props;
   let renderXCircleIcon;
   if (handleDelete) {
     renderXCircleIcon = (
@@ -19,7 +19,7 @@ function OrderCard(props) {
           <figure className="w-20 h-20">
             <img
               className="w-full h-full rounded-lg object-cover"
-              src={imageUrl}
+              src={imagesUrl}
               alt={title}
             />
           </figure>

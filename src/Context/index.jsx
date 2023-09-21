@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { json } from "react-router-dom";
 
 const ShoppingCartContext = createContext();
 
@@ -49,7 +50,7 @@ function ShoppingCartProvider({ children }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
+    fetch("https://api.escuelajs.co/api/v1/products")
       .then((response) => response.json())
       .then((data) => setItems(data));
   }, []);
@@ -70,13 +71,49 @@ function ShoppingCartProvider({ children }) {
       if (selectedCategory) {
         filteredProducts = filteredProducts.filter(
           (item) =>
-            item.category.toLowerCase() === selectedCategory.toLowerCase()
+            item.category.name.toLowerCase() === selectedCategory.toLowerCase()
         );
       }
       setFilteredItems(filteredProducts);
     }
     applyFilters();
   }, [items, searchByTitle, selectedCategory]);
+
+  // User authentication (sign-In / sign-Out)
+
+  function inicializeLocalStorage() {
+    // Inicialize upon account and signOut
+
+    const accountInLocalStorages = localStorage.getItem("account");
+    const signOutInLocalStorage = localStorage.getItem("signOut");
+    let parseAccount;
+    let parseSignOut;
+
+    if (!accountInLocalStorages) {
+      localStorage.setItem("account", JSON.stringify({}));
+      parseAccount = {};
+    } else {
+      parseAccount = JSON.parse(accountInLocalStorages);
+    }
+
+    if (!signOutInLocalStorage) {
+      localStorage.setItem("signOut", false);
+      parseSignOut = false;
+    } else {
+      parseSignOut = JSON.parse(signOutInLocalStorage);
+    }
+  }
+
+  // Create states for account and signOut
+  const [account, setAccount] = useState({});
+
+  console.log("account:", account);
+
+  const [signOut, setSignOut] = useState(false);
+
+  console.log("signOut:", signOut);
+
+  // Login function
 
   return (
     <>
@@ -106,6 +143,11 @@ function ShoppingCartProvider({ children }) {
           setFilteredItems,
           selectedCategory,
           setSelectedCategory,
+          inicializeLocalStorage,
+          account,
+          setAccount,
+          signOut,
+          setSignOut,
         }}
       >
         {children}
