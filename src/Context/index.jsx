@@ -81,8 +81,8 @@ function ShoppingCartProvider({ children }) {
 
   // User authentication (sign-In / sign-Out)
 
-  function inicializeLocalStorage() {
-    // Inicialize upon account and signOut
+  function initializeLocalStorage() {
+    // Initialize upon account and signOut
 
     const accountInLocalStorages = localStorage.getItem("account");
     const signOutInLocalStorage = localStorage.getItem("signOut");
@@ -107,13 +107,7 @@ function ShoppingCartProvider({ children }) {
   // Create states for account and signOut
   const [account, setAccount] = useState({});
 
-  console.log("account:", account);
-
   const [signOut, setSignOut] = useState(false);
-
-  console.log("signOut:", signOut);
-
-  // Login function
 
   return (
     <>
@@ -143,7 +137,7 @@ function ShoppingCartProvider({ children }) {
           setFilteredItems,
           selectedCategory,
           setSelectedCategory,
-          inicializeLocalStorage,
+          initializeLocalStorage,
           account,
           setAccount,
           signOut,
